@@ -15,10 +15,7 @@ import(
 )
 
 func main() {
-    text := "test"
-    pass := "test"
-
-    encryted, _ := crypto.Encrypt(text, pass)
+    encryted, _ := crypto.Encrypt("test", "test")
     fmt.Println(encryted)
 }
 ```
