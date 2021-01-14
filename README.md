@@ -1,6 +1,7 @@
 # crypto
 
-The smallest go library to encrypt and decrypt text with a password.
+The smallest go library to encrypt and decrypt text.
+
 
 ## Usage
 
@@ -19,8 +20,8 @@ func main() {
     text := "test"
     pass := "test"
 
-    encryted, _ := crypto.Encrypt(text, pass)
-    fmt.Println(encryted)
+    encryted, err := crypto.Encrypt(text, pass)
+    fmt.Println(encryted, err)
 }
 ```
 
