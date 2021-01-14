@@ -7,6 +7,9 @@ import(
 )
 
 func main() {
-    encryted, _ := crypto.Encrypt("test", "test")
-    fmt.Println(encryted)
+    password := "test"
+    encrypted, _ := crypto.Encrypt("test", password)
+    decrypted, _ := crypto.Decrypt(encrypted, password)
+    fmt.Printf("Encrypted: %s\n", encrypted)
+    fmt.Printf("Decrypted: %s\n", decrypted)
 }
