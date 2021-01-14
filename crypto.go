@@ -1,3 +1,8 @@
+// Simple go library and cli to encrypt and decrypt data
+//
+// This packages uses the Galois/Counter_Mode
+// https://en.wikipedia.org/wiki/Galois/Counter_Mode and the package
+// https://golang.org/pkg/crypto/cipher/#NewGCM
 package crypto
 
 import (
@@ -6,8 +11,8 @@ import (
 
     "crypto/aes"
     "crypto/cipher"
-	"crypto/sha256"
-	"crypto/rand"
+    "crypto/sha256"
+    "crypto/rand"
 
     "encoding/hex"
 )

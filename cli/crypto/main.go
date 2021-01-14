@@ -26,8 +26,9 @@ func main() {
     command  := os.Args[1]
     password := os.Getenv("CRYPTO_PASSWORD")
     if password == "" {
-		fmt.Printf("Error: Environment variable %s is not set.", color.Paint("green", "CRYPTO_PASSWORD"))
-		return
+        fmt.Printf("Error: Environment variable %s is not set.",
+            color.Paint("green", "CRYPTO_PASSWORD"))
+        return
     }
 
     text := ""
@@ -45,12 +46,13 @@ func main() {
         encrypted, _ := crypto.Encrypt(text, password)
         fmt.Println(encrypted)
 
-	} else if command == "decrypt" {
+    } else if command == "decrypt" {
         decrypted, _ := crypto.Decrypt(text, password)
         fmt.Println(decrypted)
 
-	} else {
-		fmt.Printf("Error: Command %s not found.\n", color.Paint("green", command))
-		os.Exit(1)
+    } else {
+        fmt.Printf("Error: Command %s not found.\n",
+            color.Paint("green", command))
+        os.Exit(1)
     }
 }
