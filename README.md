@@ -23,4 +23,4 @@ func main() {
 }
 ```
 
-Check also [the cli README.MD](cli/crypto/README.md) for the cli tool docs.
+Check also [the cli README.MD](cli/crypto) for the cli tool docs.
