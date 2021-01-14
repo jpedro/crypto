@@ -4,6 +4,7 @@ import (
     "os"
     "fmt"
     "bufio"
+    "strings"
 
     "github.com/jpedro/crypto"
     "github.com/jpedro/color"
@@ -14,7 +15,7 @@ var USAGE = `USAGE:
     crypto decrypt [TEXT]  # Decrypts TEXT or uses the STDIN
 
 ENVIRONMENT VARIABLES:
-    CRYPTO_PASSWORD        # The password to use
+    CRYPTO_PASSWORD        # The password to use (to avoid the prompt)
 `
 
 func main() {
@@ -26,9 +27,17 @@ func main() {
     command  := os.Args[1]
     password := os.Getenv("CRYPTO_PASSWORD")
     if password == "" {
-        fmt.Printf("Error: Environment variable %s is not set.",
-            color.Paint("green", "CRYPTO_PASSWORD"))
-        return
+        fmt.Printf("Enter the password: ")
+        reader := bufio.NewReader(os.Stdin)
+        pass, _ := reader.ReadString('\n')
+        pass = strings.TrimSpace(pass)
+        if pass == "" {
+            // fmt.Printf("Warning: Environment variable %s is not set.",
+            //     color.Paint("green", "CRYPTO_PASSWORD"))
+            fmt.Println("Error: Password can't be empty.")
+            os.Exit(1)
+        }
+        password = pass
     }
 
     text := ""
@@ -43,11 +52,19 @@ func main() {
     }
 
     if command == "encrypt" {
-        encrypted, _ := crypto.Encrypt(text, password)
+        encrypted, err := crypto.Encrypt(text, password)
+        if err != nil {
+            fmt.Println("Error: Failed to encrypt.")
+            os.Exit(1)
+        }
         fmt.Println(encrypted)
 
     } else if command == "decrypt" {
-        decrypted, _ := crypto.Decrypt(text, password)
+        decrypted, err := crypto.Decrypt(text, password)
+        if err != nil {
+            fmt.Println("Error: Failed to decrypt.")
+            os.Exit(1)
+        }
         fmt.Println(decrypted)
 
     } else {
