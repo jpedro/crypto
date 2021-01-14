@@ -16,6 +16,8 @@ import(
 func main() {
     text := "test"
     pass := "test"
-    fmt.Println(crypto.Encrypt(text, pass))
+
+    encryted, _ := crypto.Encrypt(text, pass)
+    fmt.Println(encryted)
 }
 ```
