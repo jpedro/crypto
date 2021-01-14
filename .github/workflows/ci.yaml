@@ -3,12 +3,6 @@ name: Test library
 on:
 - push
 - pull_request
-  # push:
-  #   branches:
-  #   - master
-  # pull_request:
-  #   branches:
-  #   - master
 
 jobs:
   test:
@@ -40,12 +34,14 @@ jobs:
         cd example
         go run main.go
 
-    - name: Test cli
+    - name: Run cli
       run: |
-        echo "In $(pwd)"
         cd ~
-        go get github.com/jpedro/color/cli/color
-        color green 'Hello green world!'
+        go get github.com/jpedro/crypto/cli/crypto
+        export CRYPTO_PASSWORD="test"
+        echo test | crypto encrypt
+        echo 334fdc05b4a0d262b2003bff385424d37a1c39c649cb9083d3b5fe895a0c6d16 | crypto decrypt
+        echo test | crypto encrypt | crypto decrypt
 
     - name: Send slack notification
       uses: 8398a7/action-slack@v3
@@ -55,52 +51,3 @@ jobs:
         fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-  # test:
-  #   strategy:
-  #     matrix:
-  #       go-version: [1.15.x]
-  #       platform: [ubuntu-latest, macos-latest, windows-latest]
-  #   runs-on: ${{ matrix.platform }}
-  #   steps:
-  #   - name: Install Go
-  #     if: success()
-  #     uses: actions/setup-go@v2
-  #     with:
-  #       go-version: ${{ matrix.go-version }}
-  #   - name: Checkout code
-  #     uses: actions/checkout@v2
-  #   - name: Run tests
-  #     run: |
-  #       go test -v -covermode=count
-  #       # go test -cover -coverprofile coverage.out
-  #       # go tool cover -func=coverage.out
-  #   - name: Send slack notification
-  #     uses: 8398a7/action-slack@v3
-  #     with:
-  #       status: ${{ job.status }}
-  #       fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
-  #     env:
-  #       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  #     if: always()
-
-  # # coverage:
-  # #   runs-on: ubuntu-latest
-  # #   steps:
-  # #   - name: Install Go
-  # #     if: success()
-  # #     uses: actions/setup-go@v2
-  # #     with:
-  # #       go-version: 1.15.x
-  # #   - name: Checkout code
-  # #     uses: actions/checkout@v2
-  # #   - name: Calc coverage
-  # #     run: |
-  # #       go test -v -covermode=count -coverprofile=coverage.out
-  # #   # - name: Convert coverage.out to coverage.lcov
-  # #   #   uses: jandelgado/gcov2lcov-action@v1.0.6
-  # #   # - name: Coveralls
-  # #   #   uses: coverallsapp/github-action@v1.1.2
-  # #   #   with:
-  # #   #       github-token: ${{ secrets.github_token }}
-  # #   #       path-to-lcov: coverage.lcov
