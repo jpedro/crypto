@@ -4,6 +4,8 @@ The smallest go library to encrypt and decrypt text with a password.
 
 ## Usage
 
+### Library
+
 ```go
 package main
 
@@ -22,7 +24,7 @@ func main() {
 }
 ```
 
-## Cli
+### CLI
 
 ```bash
 # Install the cli
