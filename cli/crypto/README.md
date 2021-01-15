@@ -17,7 +17,7 @@ $ echo test | crypto encrypt
 039df0154dbce96f8302d30e9263314f0d88a2538e040640a051cd359076f5b4
 
 # Decrypt it back
-$ echo '039df0154dbce96f8302d30e9263314f0d88a2538e040640a051cd359076f5b4' | crypto decrypt
+$ echo 039df0154dbce96f8302d30e9263314f0d88a2538e040640a051cd359076f5b4 | crypto decrypt
 test
 
 # Chain the commands
