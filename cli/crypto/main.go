@@ -60,6 +60,7 @@ func main() {
         fmt.Println(encrypted)
 
     } else if command == "decrypt" {
+        text = strings.Replace(text, "\n", "", -1)
         decrypted, err := crypto.Decrypt(text, password)
         if err != nil {
             fmt.Println("Error: Failed to decrypt.")
