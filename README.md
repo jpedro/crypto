@@ -24,4 +24,6 @@ func main() {
 }
 ```
 
-There's a [cli/crypto](cli/crypto) for your terminal needs.
+## CLI
+
+Check [cli/crypto](cli/crypto) for your terminal needs.
