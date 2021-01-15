@@ -1,6 +1,6 @@
 # crypto
 
-A small go library to encrypt and decrypt text.
+Small go library to encrypt and decrypt text.
 
 
 ## Usage
@@ -15,8 +15,12 @@ import(
 )
 
 func main() {
-    encryted, _ := crypto.Encrypt("test", "test")
-    fmt.Println(encryted)
+    original := "test"
+    password := "test"
+    encrypted, _ := crypto.Encrypt(original, password)
+    decryptaed, _ := crypto.Decrypt(encrypted, password)
+    fmt.Printf("Encrypted: %s\n", encrypted)
+    fmt.Printf("Decrypted: %s\n", decrypted)
 }
 ```
 
