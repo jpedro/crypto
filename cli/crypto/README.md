@@ -1,6 +1,6 @@
 # crypto
 
-A small go cli to encrypt and decrypt text.
+Small go cli to encrypt and decrypt text.
 
 
 ## Usage
