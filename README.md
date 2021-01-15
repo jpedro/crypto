@@ -24,4 +24,4 @@ func main() {
 }
 ```
 
-Check also the [cli/crypto](cli/crypto) cli tool usage.
+Check also the [cli/crypto](cli/crypto) tool usage.
