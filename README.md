@@ -1,5 +1,4 @@
 # crypto
-[![Build Status](https://action-badges.now.sh/jpedro/crypto)](https://github.com/jpedro/crypto/actions)
 [![Github Status](https://github.com/jpedro/crypto/workflows/main/badge.svg)](https://github.com/jpedro/crypto/actions)
 [![GoDoc](https://godoc.org/github.com/jpedro/crypto?status.svg)](https://godoc.org/github.com/jpedro/crypto)
 
