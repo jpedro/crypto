@@ -10,13 +10,13 @@
 package main
 
 import (
-    "os"
-    "fmt"
-    "bufio"
-    "strings"
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
 
-    "github.com/jpedro/crypto"
-    "github.com/jpedro/color"
+	"github.com/jpedro/color"
+	"github.com/jpedro/crypto"
 )
 
 var USAGE = `USAGE:
@@ -28,58 +28,58 @@ ENVIRONMENT VARIABLES:
 `
 
 func main() {
-    if len(os.Args) < 2 {
-        fmt.Println(USAGE)
-        os.Exit(0)
-    }
+	if len(os.Args) < 2 {
+		fmt.Println(USAGE)
+		os.Exit(0)
+	}
 
-    command  := os.Args[1]
-    password := os.Getenv("CRYPTO_PASSWORD")
-    if password == "" {
-        fmt.Printf("Enter the password: ")
-        reader := bufio.NewReader(os.Stdin)
-        pass, _ := reader.ReadString('\n')
-        pass = strings.TrimSpace(pass)
-        if pass == "" {
-            // fmt.Printf("Warning: Environment variable %s is not set.",
-            //     color.Paint("green", "CRYPTO_PASSWORD"))
-            fmt.Println("Error: Password can't be empty.")
-            os.Exit(1)
-        }
-        password = pass
-    }
+	command := os.Args[1]
+	password := os.Getenv("CRYPTO_PASSWORD")
+	if password == "" {
+		fmt.Printf("Enter the password: ")
+		reader := bufio.NewReader(os.Stdin)
+		pass, _ := reader.ReadString('\n')
+		pass = strings.TrimSpace(pass)
+		if pass == "" {
+			// fmt.Printf("Warning: Environment variable %s is not set.",
+			//     color.Paint("green", "CRYPTO_PASSWORD"))
+			fmt.Println("Error: Password can't be empty.")
+			os.Exit(1)
+		}
+		password = pass
+	}
 
-    text := ""
-    if len(os.Args) < 3 {
-        // fmt.Printf("==> Enter the text to %s (stop with Ctrl+D or cancel with Ctrl+C):\n", command)
-        scanner := bufio.NewScanner(os.Stdin)
-        for scanner.Scan() {
-            text = scanner.Text()
-        }
-    } else {
-        text = os.Args[2]
-    }
+	text := ""
+	if len(os.Args) < 3 {
+		// fmt.Printf("==> Enter the text to %s (stop with Ctrl+D or cancel with Ctrl+C):\n", command)
+		scanner := bufio.NewScanner(os.Stdin)
+		for scanner.Scan() {
+			text = scanner.Text()
+		}
+	} else {
+		text = os.Args[2]
+	}
 
-    if command == "encrypt" {
-        encrypted, err := crypto.Encrypt(text, password)
-        if err != nil {
-            fmt.Println("Error: Failed to encrypt.")
-            os.Exit(1)
-        }
-        fmt.Println(encrypted)
+	if command == "encrypt" {
+		encrypted, err := crypto.Encrypt(text, password)
+		if err != nil {
+			fmt.Println("Error: Failed to encrypt.")
+			os.Exit(1)
+		}
+		fmt.Println(encrypted)
 
-    } else if command == "decrypt" {
-        text = strings.Replace(text, "\n", "", -1)
-        decrypted, err := crypto.Decrypt(text, password)
-        if err != nil {
-            fmt.Println("Error: Failed to decrypt.")
-            os.Exit(1)
-        }
-        fmt.Println(decrypted)
+	} else if command == "decrypt" {
+		text = strings.Replace(text, "\n", "", -1)
+		decrypted, err := crypto.Decrypt(text, password)
+		if err != nil {
+			fmt.Println("Error: Failed to decrypt.")
+			os.Exit(1)
+		}
+		fmt.Println(decrypted)
 
-    } else {
-        fmt.Printf("Error: Command %s not found.\n",
-            color.Paint("green", command))
-        os.Exit(1)
-    }
+	} else {
+		fmt.Printf("Error: Command %s not found.\n",
+			color.Paint("green", command))
+		os.Exit(1)
+	}
 }
