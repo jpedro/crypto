@@ -1,4 +1,5 @@
 # crypto
+![Build Status](https://action-badges.now.sh/jpedro/crypto)
 
 Small go library to encrypt and decrypt text.
 
