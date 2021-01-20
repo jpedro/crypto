@@ -1,5 +1,6 @@
 # crypto
 ![Build Status](https://action-badges.now.sh/jpedro/crypto)
+[![GoDoc](https://godoc.org/github.com/jpedro/crypto?status.svg)](https://godoc.org/github.com/jpedro/crypto)
 
 Small go library to encrypt and decrypt text.
 
