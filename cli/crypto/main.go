@@ -51,11 +51,7 @@ func main() {
 
 	text := ""
 	if len(os.Args) < 3 {
-		// fmt.Printf("==> Enter the text to %s (stop with Ctrl+D or cancel with Ctrl+C):\n", command)
-		scanner := bufio.NewScanner(os.Stdin)
-		for scanner.Scan() {
-			text = scanner.Text()
-		}
+		text = readStdin(command)
 	} else {
 		text = os.Args[2]
 	}
@@ -82,4 +78,23 @@ func main() {
 			color.Paint("green", command))
 		os.Exit(1)
 	}
+}
+
+func readStdin(command string) string {
+	info, err := os.Stdin.Stat()
+	if err != nil {
+		panic(err)
+	}
+
+	if info.Mode()&os.ModeNamedPipe == 0 {
+		fmt.Printf("==> Enter the text to %s (finish with Ctrl+D):\n", command)
+	}
+
+	text := ""
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		text = scanner.Text()
+	}
+
+	return text
 }
