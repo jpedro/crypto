@@ -26,6 +26,8 @@ func main() {
 }
 ```
 
+You can run it with:
+
 ```bash
 $ (cd example && go run main.go)
 Encrypted: 5fb983fceb745148b3d714425d0de00fbe5f0ed0bd7101c01198627f5cbfecc9
