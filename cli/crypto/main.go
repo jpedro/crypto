@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"syscall"
 
 	"golang.org/x/term"
 
@@ -23,13 +24,14 @@ import (
 
 var (
 	VERSION = "v0.1.0"
-	USAGE = `USAGE:
+	USAGE   = `USAGE:
     crypto encrypt [TEXT]  # Encrypts TEXT or uses the STDIN
     crypto decrypt [TEXT]  # Decrypts TEXT or uses the STDIN
 
 ENVIRONMENT VARIABLES:
     CRYPTO_PASSWORD        # The password to use (to avoid the prompt)
 `
+)
 
 func main() {
 	if len(os.Args) < 2 {
@@ -52,7 +54,7 @@ func main() {
 	if command == "encrypt" {
 		payload := getPayload(command)
 		password := getPassword()
-		encrypted, err := crypto.Encrypt(text, password)
+		encrypted, err := crypto.Encrypt(payload, password)
 		if err != nil {
 			fmt.Println("Error: Failed to encrypt.")
 			os.Exit(1)
@@ -62,8 +64,8 @@ func main() {
 	} else if command == "decrypt" {
 		payload := getPayload(command)
 		password := getPassword()
-		text = strings.Replace(text, "\n", "", -1)
-		decrypted, err := crypto.Decrypt(text, password)
+		payload = strings.Replace(payload, "\n", "", -1)
+		decrypted, err := crypto.Decrypt(payload, password)
 		if err != nil {
 			fmt.Println("Error: Failed to decrypt.")
 			os.Exit(1)
@@ -83,7 +85,7 @@ func getPayload(command string) string {
 	} else {
 		return os.Args[2]
 	}
-}	
+}
 
 func getPassword() string {
 	password := os.Getenv("CRYPTO_PASSWORD")
@@ -121,7 +123,7 @@ func readStdin(command string) string {
 		panic(err)
 	}
 
-	if info.Mode() & os.ModeNamedPipe == 0 {
+	if info.Mode()&os.ModeNamedPipe == 0 {
 		fmt.Printf("Enter the text to %s and finish with Ctrl+D:\n", command)
 	}
 
