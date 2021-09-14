@@ -36,16 +36,17 @@ jobs:
 
     - name: Run cli
       run: |
-        cd ~
-        go get github.com/jpedro/crypto/cli/crypto
+        # cd ~
+        # go get github.com/jpedro/crypto/cli/crypto
         # go install .
+        cd cli/crypto
         export CRYPTO_PASSWORD="test"
-        ENC="$(echo test | crypto encrypt)"
-        DEC="$(echo $ENC | crypto decrypt)"
+        ENC="$(echo test | go run main.go encrypt)"
+        DEC="$(echo $ENC | go run main.go decrypt)"
         echo "Encrypted : $ENC"
         echo "Decrypted : $DEC"
-        echo "Chained   : $(echo test | crypto encrypt | crypto decrypt)"
-        echo "Version   : $(crypto version)"
+        echo "Chained   : $(echo test | go run main.go encrypt | go run main.go decrypt)"
+        echo "Version   : $(go run main.go version)"
 
     - name: Send slack notification
       uses: 8398a7/action-slack@v3
