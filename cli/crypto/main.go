@@ -23,7 +23,7 @@ import (
 )
 
 var (
-	VERSION = "v0.1.0"
+	VERSION = "v0.1.3"
 	USAGE   = `USAGE:
     crypto encrypt [TEXT]   # Encrypts TEXT or uses the STDIN
     crypto decrypt [TEXT]   # Decrypts TEXT or uses the STDIN
