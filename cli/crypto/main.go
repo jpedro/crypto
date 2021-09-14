@@ -18,12 +18,18 @@ import (
 
 	"golang.org/x/term"
 
-	"github.com/jpedro/color"
 	"github.com/jpedro/crypto"
 )
 
+type From int
+
+const (
+	FROM_ARGS From = iota
+	FROM_STDIN
+)
+
 var (
-	VERSION = "v0.1.3"
+	VERSION = "v0.1.4"
 	USAGE   = `USAGE:
     crypto encrypt [TEXT]   # Encrypts TEXT or uses the STDIN
     crypto decrypt [TEXT]   # Decrypts TEXT or uses the STDIN
@@ -31,7 +37,7 @@ var (
     crypto version          # Shows the current version
 
 ENVIRONMENT VARIABLES:
-    CRYPTO_PASSWORD        # The password to use (avoids the prompt)
+    CRYPTO_PASSWORD        # The password to use (avoids the prompt, required if you use stdin)
 `
 )
 
@@ -54,54 +60,57 @@ func main() {
 	command := os.Args[1]
 
 	if command == "encrypt" {
-		payload := getPayload(command)
-		password := getPassword()
+		from, payload := getPayload(command)
+		password := getPassword(from)
 		encrypted, err := crypto.Encrypt(payload, password)
 		if err != nil {
-			fmt.Println("Error: Failed to encrypt.")
+			bail("Error: Failed to encrypt (%s).", err)
 			os.Exit(1)
 		}
 		fmt.Println(encrypted)
 
 	} else if command == "decrypt" {
-		payload := getPayload(command)
-		password := getPassword()
+		from, payload := getPayload(command)
+		password := getPassword(from)
 		payload = strings.Replace(payload, "\n", "", -1)
 		decrypted, err := crypto.Decrypt(payload, password)
 		if err != nil {
-			fmt.Println("Error: Failed to decrypt.")
+			bail("Error: Failed to decrypt (%s)\n", err)
 			os.Exit(1)
 		}
 		fmt.Println(decrypted)
 
 	} else {
-		fmt.Printf("Error: Command %s not found. Run 'crypt help' to check available options.\n",
-			color.Paint("green", command))
+		bail("Error: Command '%s' not found.\n", command)
+		bail("Run 'crypto help' to check available commands.\n")
 		os.Exit(1)
 	}
 }
 
-func getPayload(command string) string {
+func getPayload(command string) (From, string) {
 	if len(os.Args) < 3 {
-		return readStdin(command)
+		return FROM_STDIN, readStdin(command)
 	} else {
-		return os.Args[2]
+		return FROM_ARGS, os.Args[2]
 	}
 }
 
-func getPassword() string {
+func getPassword(from From) string {
 	password := os.Getenv("CRYPTO_PASSWORD")
 	if password != "" {
 		return password
 	}
 
-	// reader := bufio.NewReader(os.Stdin)
-	// input, _ := reader.ReadString('\n')
-	// password = strings.TrimSpace(input)
+	if from == FROM_STDIN {
+		bail("Error: The 'CRYPTO_PASSWORD' env var is required if you use stdin.")
+		os.Exit(2)
+	}
+
 	password = askPassword("Enter the password: ")
 	if password == "" {
-		fmt.Println("Error: The password can't be empty. You can use the 'CRYPTO_PASSWORD' env var instead.")
-		os.Exit(1)
+		bail("Error: The password can't be empty.\n")
+		bail("You can use the 'CRYPTO_PASSWORD' env var instead.\n")
+		os.Exit(2)
 	}
 
 	return password
@@ -136,4 +145,8 @@ func readStdin(command string) string {
 	}
 
 	return payload
+}
+
+func bail(message string, args ...interface{}) {
+	fmt.Fprintf(os.Stderr, message, args...)
 }
