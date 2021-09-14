@@ -29,15 +29,15 @@ const (
 )
 
 var (
-	VERSION = "v0.1.6"
+	VERSION = "v0.1.7"
 	USAGE   = `USAGE:
-    crypto encrypt [TEXT]   # Encrypts TEXT or uses the STDIN
-    crypto decrypt [TEXT]   # Decrypts TEXT or uses the STDIN
-    crypto help             # Shows this help
-    crypto version          # Shows the current version
+    crypto encrypt [PAYLOAD]    # Encrypts PAYLOAD or what's in the STDIN
+    crypto decrypt [PAYLOAD]    # Decrypts PAYLOAD or what's in the STDIN
+    crypto help                 # Shows this help
+    crypto version              # Shows the current version
 
 ENVIRONMENT VARIABLES:
-    CRYPTO_PASSWORD        # The password to use (avoids the prompt, required if you use stdin)
+    CRYPTO_PASSWORD             # Use this password (avoids the prompt, required if you use stdin)
 `
 )
 
