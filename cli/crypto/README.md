@@ -7,7 +7,7 @@ Go cli to encrypt and decrypt payloads.
 
 ```bash
 ### Install the cli
-$ go get github.com/jpedro/crypto/cli/crypto
+$ go install github.com/jpedro/crypto/cli/crypto
 
 ### Set the password as env var
 $ export CRYPTO_PASSWORD="test"
