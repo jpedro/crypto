@@ -39,8 +39,10 @@ jobs:
         cd ~
         go get github.com/jpedro/crypto/cli/crypto
         export CRYPTO_PASSWORD="test"
-        echo test | crypto encrypt
-        echo 334fdc05b4a0d262b2003bff385424d37a1c39c649cb9083d3b5fe895a0c6d16 | crypto decrypt
+        ENC="$(echo test | crypto encrypt)"
+        DEC="$(echo $ENC | crypto decrypt)"
+        echo "Enc: $ENC"
+        echo "Dec: $DEC"
         echo test | crypto encrypt | crypto decrypt
 
     - name: Send slack notification
