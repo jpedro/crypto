@@ -10,24 +10,24 @@
 package crypto
 
 import (
-    "testing"
+	"testing"
 )
 
 func TestEncryptDecrypt(t *testing.T) {
-    text := "test"
-    pass := "test"
+	text := "test"
+	pass := "test"
 
-    encrypted, err := Encrypt(text, pass)
-    if err != nil {
-        panic(err)
-    }
+	encrypted, err := Encrypt(text, pass)
+	if err != nil {
+		panic(err)
+	}
 
-    decrypted, err := Decrypt(encrypted, pass)
-    if err != nil {
-        panic(err)
-    }
+	decrypted, err := Decrypt(encrypted, pass)
+	if err != nil {
+		panic(err)
+	}
 
-    if decrypted != text {
-        t.Error("Expected", text, "got", decrypted)
-    }
+	if decrypted != text {
+		t.Error("Expected", text, "got", decrypted)
+	}
 }
