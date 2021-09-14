@@ -2,7 +2,7 @@
 //
 // This packages uses the Galois/Counter_Mode
 // https://en.wikipedia.org/wiki/Galois/Counter_Mode and the package
-// https://golang.org/pkg/crypto/cipher/#NewGCM
+// https://pkg.go.dev/crypto/cipher#NewGCM
 package crypto
 
 import (
