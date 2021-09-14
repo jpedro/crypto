@@ -29,7 +29,7 @@ const (
 )
 
 var (
-	VERSION = "v0.1.5"
+	VERSION = "v0.1.6"
 	USAGE   = `USAGE:
     crypto encrypt [TEXT]   # Encrypts TEXT or uses the STDIN
     crypto decrypt [TEXT]   # Decrypts TEXT or uses the STDIN
