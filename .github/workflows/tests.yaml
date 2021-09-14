@@ -36,9 +36,6 @@ jobs:
 
     - name: Run cli
       run: |
-        # cd ~
-        # go get github.com/jpedro/crypto/cli/crypto
-        # go install .
         cd cli/crypto
         export CRYPTO_PASSWORD="test"
         ENC="$(echo test | go run main.go encrypt)"
