@@ -41,9 +41,10 @@ jobs:
         export CRYPTO_PASSWORD="test"
         ENC="$(echo test | crypto encrypt)"
         DEC="$(echo $ENC | crypto decrypt)"
-        echo "Enc: $ENC"
-        echo "Dec: $DEC"
-        echo test | crypto encrypt | crypto decrypt
+        echo "Encrypted : $ENC"
+        echo "Decrypted : $DEC"
+        echo "Chained   : $(echo test | crypto encrypt | crypto decrypt)"
+        echo "Version   : $(crypto version)"
 
     - name: Send slack notification
       uses: 8398a7/action-slack@v3
