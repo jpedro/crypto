@@ -25,11 +25,13 @@ import (
 var (
 	VERSION = "v0.1.0"
 	USAGE   = `USAGE:
-    crypto encrypt [TEXT]  # Encrypts TEXT or uses the STDIN
-    crypto decrypt [TEXT]  # Decrypts TEXT or uses the STDIN
+    crypto encrypt [TEXT]   # Encrypts TEXT or uses the STDIN
+    crypto decrypt [TEXT]   # Decrypts TEXT or uses the STDIN
+    crypto help             # Shows this help
+    crypto version          # Shows the current version
 
 ENVIRONMENT VARIABLES:
-    CRYPTO_PASSWORD        # The password to use (to avoid the prompt)
+    CRYPTO_PASSWORD        # The password to use (avoids the prompt)
 `
 )
 
