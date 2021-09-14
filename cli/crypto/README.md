@@ -1,6 +1,6 @@
 # crypto
 
-Small go cli to encrypt and decrypt text.
+Go cli to encrypt and decrypt payloads.
 
 
 ## Usage
