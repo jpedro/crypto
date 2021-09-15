@@ -53,7 +53,7 @@ func main() {
 
 	switch command {
 	case "help", "--help":
-		fmt.Println(USAGE)
+		fmt.Print(USAGE)
 		return
 
 	case "version", "--version":
