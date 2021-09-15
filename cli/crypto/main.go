@@ -29,37 +29,38 @@ const (
 )
 
 var (
-	VERSION = "v0.1.7"
-	USAGE   = `USAGE:
+	VERSION = "v0.1.8"
+	USAGE   = `SYNOPSIS
+    Encrypts and decrypts payloads with a simetric key
+
+USAGE
     crypto encrypt [PAYLOAD]    # Encrypts PAYLOAD or what's in the STDIN
     crypto decrypt [PAYLOAD]    # Decrypts PAYLOAD or what's in the STDIN
     crypto help                 # Shows this help
     crypto version              # Shows the current version
 
-ENVIRONMENT VARIABLES:
+ENVIRONMENT VARIABLES
     CRYPTO_PASSWORD             # Use this password (avoids the prompt, required if you use stdin)
 `
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		fmt.Println(USAGE)
-		os.Exit(0)
+	command := "help"
+
+	if len(os.Args) > 1 {
+		command = os.Args[1]
 	}
 
-	if os.Args[1] == "help" {
+	switch command {
+	case "help", "--help":
 		fmt.Println(USAGE)
-		os.Exit(0)
-	}
+		return
 
-	if os.Args[1] == "version" {
+	case "version", "--version":
 		fmt.Println(VERSION)
-		os.Exit(0)
-	}
+		return
 
-	command := os.Args[1]
-
-	if command == "encrypt" {
+	case "encrypt", "enc", "e", "--encrypt", "-e":
 		from, payload := getPayload(command)
 		password := getPassword(from)
 		encrypted, err := crypto.Encrypt(payload, password)
@@ -69,7 +70,7 @@ func main() {
 		}
 		fmt.Println(encrypted)
 
-	} else if command == "decrypt" {
+	case "decrypt", "dec", "d", "--decrypt", "-d":
 		from, payload := getPayload(command)
 		password := getPassword(from)
 		payload = strings.Replace(payload, "\n", "", -1)
@@ -80,16 +81,17 @@ func main() {
 		}
 		fmt.Println(decrypted)
 
-	} else {
+	default:
 		bail("Error: Command '%s' not found.\n", command)
 		bail("Run 'crypto help' to check available commands.\n")
 		os.Exit(1)
+
 	}
 }
 
 func getPayload(command string) (From, string) {
 	if len(os.Args) < 3 {
-		return FROM_STDIN, readStdin(command)
+		return FROM_STDIN, getStdin(command)
 	} else {
 		return FROM_ARGS, os.Args[2]
 	}
@@ -128,7 +130,7 @@ func askPassword(prompt string) string {
 	return password
 }
 
-func readStdin(command string) string {
+func getStdin(command string) string {
 	info, err := os.Stdin.Stat()
 	if err != nil {
 		panic(err)
