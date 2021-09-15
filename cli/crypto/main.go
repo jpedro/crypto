@@ -29,7 +29,7 @@ const (
 )
 
 var (
-	VERSION = "v0.1.8"
+	VERSION = "v0.1.9"
 	USAGE   = `SYNOPSIS
     Encrypts and decrypts payloads with a simetric key
 
