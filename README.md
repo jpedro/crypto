@@ -37,3 +37,7 @@ Decrypted: test
 ## CLI
 
 Check [cli/crypto](cli/crypto) for your terminal needs.
+
+## Todos
+
+- [ ] Accept any, not just string
