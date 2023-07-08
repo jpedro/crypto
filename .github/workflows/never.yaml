@@ -1,0 +1,56 @@
+name: Deprecated
+
+on:
+  push:
+    branches:
+    - never
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.15.x
+
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run linters
+      uses: golangci/golangci-lint-action@v2
+      with:
+        version: v1.29
+
+    - name: Run tests
+      run: |
+        go test -v -covermode=count -coverprofile=coverage.out
+        # go test -v -covermode=count
+        # go test -cover -coverprofile coverage.out
+        # go tool cover -func=coverage.out
+
+    - name: Run example
+      run: |
+        cd example
+        go run main.go
+
+    - name: Run cli
+      run: |
+        cd cli/crypto
+        export CRYPTO_PASSWORD="test"
+        ENC="$(echo test | go run main.go encrypt)"
+        DEC="$(echo $ENC | go run main.go decrypt)"
+        echo "Encrypted : $ENC"
+        echo "Decrypted : $DEC"
+        echo "Chained   : $(echo test | go run main.go encrypt | go run main.go decrypt)"
+        echo "Version   : $(go run main.go version)"
+
+    - name: Send slack notification
+      uses: 8398a7/action-slack@v3
+      if: always()
+      with:
+        status: ${{ job.status }}
+        fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
